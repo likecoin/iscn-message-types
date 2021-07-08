@@ -1,5 +1,5 @@
 {
-  "name": "@likecocin/iscn-message-types",
+  "name": "@likecoin/iscn-message-types",
   "version": "0.0.1",
   "description": "",
   "main": "./dist/index.js",
