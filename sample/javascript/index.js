@@ -2,8 +2,8 @@ const secp256k1 = require('secp256k1');
 const createHash = require('create-hash');
 const Long = require('long');
 const { TxBody, AuthInfo, SignDoc, TxRaw } = require("@cosmjs/stargate/build/codec/cosmos/tx/v1beta1/tx");
-const { PubKey } = require("./build/codec/cosmos/crypto/secp256k1/keys");
-const { MsgCreateIscnRecord } = require("../dist/iscn/tx");
+const { PubKey } = require("@cosmjs/stargate/build/codec/cosmos/crypto/secp256k1/keys");
+const { MsgCreateIscnRecord } = require("../../dist/iscn/tx");
 
 // define parameters
 const chainId = "likechain-local-testnet";
