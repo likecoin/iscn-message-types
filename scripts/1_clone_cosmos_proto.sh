@@ -19,7 +19,7 @@ SUFFIX=${COSMOS_SDK_REF}
 
 [[ $SUFFIX =~ ^v[0-9]+\.[0-9]+\.[0-9]+(-.+)?$ ]] && SUFFIX=${SUFFIX#v}
 
-rm -r "$COSMOS_DIR"
+rm -rf "$COSMOS_DIR"
 mkdir -p "$COSMOS_DIR"
 
 curl -Lo "$ZIP_FILE" "https://github.com/cosmos/cosmos-sdk/archive/$COSMOS_SDK_REF.zip"
