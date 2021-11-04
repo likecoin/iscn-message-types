@@ -39,6 +39,5 @@ dist/**/*
 
 cosmos
 dist
-src/iscn/
 src/cosmos/
 src/google/
