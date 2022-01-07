@@ -44,6 +44,9 @@ const response = await client.signAndBroadcast(address, [message], fee, '');
 assertIsBroadcastTxSuccess(response);
 
 ```
+With cosmjs [QueryClient](https://cosmos.github.io/cosmjs/latest/stargate/classes/QueryClient.html)
+
+Please refer to [iscn-js's ISCNQueryExtension](https://github.com/likecoin/iscn-js/blob/master/src/ISCNQueryExtension.ts) and [cosmjs documentation](https://github.com/cosmos/cosmjs/blob/main/packages/stargate/CUSTOM_PROTOBUF_CODECS.md#step-3b-instantiate-a-query-client-using-your-custom-query-service)
 
 ## Development
 
