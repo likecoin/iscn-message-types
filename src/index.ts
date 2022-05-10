@@ -1,5 +1,2 @@
-export * as iscnid from './iscn/iscnid';
-export * as param from './iscn/params';
-export * as query from './iscn/query';
-export * as store from './iscn/store';
-export * as tx from './iscn/tx';
+export * as iscn from './iscn';
+export * as likenft from './likenft';
