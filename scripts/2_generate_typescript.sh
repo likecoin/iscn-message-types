@@ -31,6 +31,25 @@ npx protoc \
   "$ISCN_PROTO_DIR/iscn/query.proto" \
   "$ISCN_PROTO_DIR/iscn/store.proto" \
   "$ISCN_PROTO_DIR/iscn/tx.proto" \
+  "$ISCN_PROTO_DIR/iscn/genesis.proto" \
+  "$ISCN_PROTO_DIR/iscn/iscnid.proto" \
+  "$ISCN_PROTO_DIR/iscn/params.proto" \
+  "$ISCN_PROTO_DIR/iscn/query.proto" \
+  "$ISCN_PROTO_DIR/iscn/store.proto" \
+  "$ISCN_PROTO_DIR/iscn/tx.proto" \
+  "$ISCN_PROTO_DIR/likenft/class_data.proto" \
+  "$ISCN_PROTO_DIR/likenft/class_input.proto" \
+  "$ISCN_PROTO_DIR/likenft/class_reveal_queue.proto" \
+  "$ISCN_PROTO_DIR/likenft/classes_by_account.proto" \
+  "$ISCN_PROTO_DIR/likenft/classes_by_iscn.proto" \
+  "$ISCN_PROTO_DIR/likenft/event.proto" \
+  "$ISCN_PROTO_DIR/likenft/genesis.proto" \
+  "$ISCN_PROTO_DIR/likenft/mintable_nft.proto" \
+  "$ISCN_PROTO_DIR/likenft/nft_data.proto" \
+  "$ISCN_PROTO_DIR/likenft/nft_input.proto" \
+  "$ISCN_PROTO_DIR/likenft/params.proto" \
+  "$ISCN_PROTO_DIR/likenft/query.proto" \
+  "$ISCN_PROTO_DIR/likenft/tx.proto"
 
 rm -rf \
   "$OUT_DIR"/cosmos_proto/ \
