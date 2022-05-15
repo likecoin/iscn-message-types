@@ -8,7 +8,7 @@ import {
 } from "../cosmos/base/query/v1beta1/pagination";
 import { QueryResponseRecord } from "../iscn/query";
 import { MintableNFT } from "../likenft/mintable_nft";
-import { Class } from "../cosmos/nft/v1beta1/nft";
+import { Class } from "../nft/nft";
 import { ClassesByISCN } from "../likenft/classes_by_iscn";
 import { ClassesByAccount } from "../likenft/classes_by_account";
 

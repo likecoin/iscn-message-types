@@ -31,5 +31,7 @@
     "src/cosmos/tx/v1beta1/tx.ts",
     "src/cosmos/crypto/secp256k1/keys.ts",
     "src/iscn",
+    "src/nft",
+    "src/likenft",
   ]
 }

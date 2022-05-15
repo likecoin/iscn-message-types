@@ -2,7 +2,7 @@
 import Long from "long";
 import _m0 from "protobufjs/minimal";
 import { ClassParentInput, ClassInput } from "../likenft/class_input";
-import { Class, NFT } from "../cosmos/nft/v1beta1/nft";
+import { Class, NFT } from "../nft/nft";
 import { NFTInput } from "../likenft/nft_input";
 
 export const protobufPackage = "likechain.likenft";

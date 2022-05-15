@@ -18,7 +18,7 @@ echo $COSMOS_PROTO_DIR
 rm -rf "$OUT_DIR"
 mkdir -p "$OUT_DIR"
 
-npx protoc \
+protoc \
   --plugin="$(yarn bin protoc-gen-ts_proto)" \
   --ts_proto_out="$OUT_DIR" \
   --proto_path="$COSMOS_PROTO_DIR" \
@@ -37,6 +37,11 @@ npx protoc \
   "$ISCN_PROTO_DIR/iscn/query.proto" \
   "$ISCN_PROTO_DIR/iscn/store.proto" \
   "$ISCN_PROTO_DIR/iscn/tx.proto" \
+  "$ISCN_PROTO_DIR/nft/event.proto" \
+  "$ISCN_PROTO_DIR/nft/genesis.proto" \
+  "$ISCN_PROTO_DIR/nft/nft.proto" \
+  "$ISCN_PROTO_DIR/nft/query.proto" \
+  "$ISCN_PROTO_DIR/nft/tx.proto" \
   "$ISCN_PROTO_DIR/likenft/class_data.proto" \
   "$ISCN_PROTO_DIR/likenft/class_input.proto" \
   "$ISCN_PROTO_DIR/likenft/class_reveal_queue.proto" \
