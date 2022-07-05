@@ -8,7 +8,7 @@ cd "${WD}"
 set -o errexit -o nounset -o pipefail
 command -v shellcheck >/dev/null && shellcheck "$0"
 
-COSMOS_SDK_REF='v0.44.8'
+COSMOS_SDK_REF='v0.45.6'
 
 PROTO_DIR="../proto"
 COSMOS_DIR="../cosmos"
