@@ -1,81 +1,119 @@
-import { Buffer } from 'buffer/';
 import {
   IscnRecord,
   MsgCreateIscnRecord,
   MsgUpdateIscnRecord,
   MsgChangeIscnRecordOwnership,
 } from './tx';
+import {
+  jsonInputFromAmino,
+  jsonInputToAmino,
+  AssertIsAminoConverter,
+  AssertIsAminoType,
+} from '../../amino';
 
-function recordToAmino(record?: IscnRecord): any {
-  const result: any = {
-    ...record,
-    stakeholders: record?.stakeholders.map(s => JSON.parse(s.toString())),
-    contentMetadata: JSON.parse(record?.contentMetadata.toString() || '{}'),
-  };
-  if (!result.stakeholders || result.stakeholders.length === 0) {
-    delete result.stakeholders;
-  }
-  if (!result.contentFingerprints || result.contentFingerprints.length === 0) {
-    delete result.contentFingerprints;
-  }
-  return result;
+export interface IscnRecordAmino {
+  recordNotes: string;
+  contentFingerprints?: string[];
+  stakeholders?: any[];
+  contentMetadata: any;
 }
 
-function recordFromAmino(record?: any): IscnRecord {
-  const stakeholders = record?.stakeholders?.map((s: string) =>
-    Buffer.from(JSON.stringify(s), 'utf8')
-  ) || [];
-  return {
-    recordNotes: record?.recordNotes || '',
-    stakeholders,
-    contentFingerprints: record?.contentFingerprints || [],
-    contentMetadata: Buffer.from(JSON.stringify(record?.contentMetadata || {}), 'utf8'),
-  };
+export const IscnRecordAminoConverter = {
+  aminoType: '/likechain.iscn.IscnRecord',
+  toAmino(record: IscnRecord): IscnRecordAmino {
+    const result: IscnRecordAmino = {
+      ...record,
+      stakeholders: record.stakeholders.map((s) => jsonInputToAmino(s)),
+      contentMetadata: jsonInputToAmino(record?.contentMetadata),
+    };
+    if (!result.stakeholders || result.stakeholders.length === 0) {
+      delete result.stakeholders;
+    }
+    if (!result.contentFingerprints || result.contentFingerprints.length === 0) {
+      delete result.contentFingerprints;
+    }
+    return result;
+  },
+  fromAmino(record: IscnRecordAmino): IscnRecord {
+    const stakeholders = record.stakeholders?.map((s) => jsonInputFromAmino(s)) || [];
+    return {
+      recordNotes: record.recordNotes || '',
+      stakeholders,
+      contentFingerprints: record?.contentFingerprints || [],
+      contentMetadata: jsonInputFromAmino(record.contentMetadata),
+    };
+  },
+};
+
+type IscnRecordAminoConverter = AssertIsAminoConverter<typeof IscnRecordAminoConverter>;
+
+export interface MsgCreateIscnRecordAmino {
+  from: string;
+  record: IscnRecordAmino;
 }
 
-// from @cosmjs/stargate/build/aminotypes.d.ts
-export interface AminoConverter {
-  readonly aminoType: string;
-  readonly toAmino: (value: any) => any;
-  readonly fromAmino: (value: any) => any;
-}
-
-const IscnAminoTypes = {
+export const MsgCreateIscnRecordAminoType = {
   '/likechain.iscn.MsgCreateIscnRecord': {
     aminoType: 'likecoin-chain/MsgCreateIscnRecord',
-    toAmino: ({ from, record }: MsgCreateIscnRecord) => ({
+    toAmino: ({ from, record }: MsgCreateIscnRecord): MsgCreateIscnRecordAmino => ({
       from,
-      record: recordToAmino(record),
+      record: IscnRecordAminoConverter.toAmino(record!),
     }),
-    fromAmino: ({ from, record }: { from: string, record: any }): MsgCreateIscnRecord => ({
+    fromAmino: ({ from, record }: MsgCreateIscnRecordAmino): MsgCreateIscnRecord => ({
       from,
-      record: recordFromAmino(record),
+      record: IscnRecordAminoConverter.fromAmino(record),
     }),
   },
+};
+
+export interface MsgUpdateIscnRecordAmino {
+  from: string;
+  iscn_id: string;
+  record: IscnRecordAmino;
+}
+
+export const MsgUpdateIscnRecordAminoType = {
   '/likechain.iscn.MsgUpdateIscnRecord': {
     aminoType: 'likecoin-chain/MsgUpdateIscnRecord',
-    toAmino: ({ from, iscnId, record }: MsgUpdateIscnRecord) => ({
+    toAmino: ({ from, iscnId, record }: MsgUpdateIscnRecord): MsgUpdateIscnRecordAmino => ({
       from,
       iscn_id: iscnId,
-      record: recordToAmino(record),
+      record: IscnRecordAminoConverter.toAmino(record!)
     }),
-    fromAmino: ({ from, iscn_id, record }: { from: string, iscn_id: string, record: any }): MsgUpdateIscnRecord => ({
+    fromAmino: ({ from, iscn_id, record }: MsgUpdateIscnRecordAmino): MsgUpdateIscnRecord => ({
       from,
       iscnId: iscn_id,
-      record: recordFromAmino(record),
+      record: IscnRecordAminoConverter.fromAmino(record),
     }),
   },
+};
+
+export interface MsgChangeIscnRecordOwnershipAmino {
+  from: string;
+  iscn_id: string;
+  new_owner: string;
+}
+
+export const MsgChangeIscnRecordOwnershipAminoType = {
   '/likechain.iscn.MsgChangeIscnRecordOwnership': {
     aminoType: 'likecoin-chain/MsgChangeIscnRecordOwnership',
-    toAmino: ({ from, iscnId, newOwner }: MsgChangeIscnRecordOwnership) => ({
+    toAmino: ({ from, iscnId, newOwner }: MsgChangeIscnRecordOwnership): MsgChangeIscnRecordOwnershipAmino => ({
       from,
       iscn_id: iscnId,
       new_owner: newOwner,
     }),
-    fromAmino: ({ from, iscn_id, new_owner }: { from: string, iscn_id: string, new_owner: string }): MsgChangeIscnRecordOwnership => ({
+    fromAmino: ({ from, iscn_id, new_owner }: MsgChangeIscnRecordOwnershipAmino): MsgChangeIscnRecordOwnership => ({
       from, iscnId: iscn_id, newOwner: new_owner,
     }),
   }
-} as Record<string, AminoConverter>;
+}
+
+const IscnAminoTypes = {
+  ...MsgCreateIscnRecordAminoType,
+  ...MsgUpdateIscnRecordAminoType,
+  ...MsgChangeIscnRecordOwnershipAminoType,
+};
+
+type IscnAminoTypes = AssertIsAminoType<typeof IscnAminoTypes>;
 
 export default IscnAminoTypes;
