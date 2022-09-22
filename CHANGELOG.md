@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.0.4 (2022-09-22)
+### Added
+- Add amino definition for x/iscn and x/likenft
+
 ## 0.0.3 (2022-07-22)
 ### Added
 - x/nft and x/likenft definition used in likecoin chain v3.0.0

@@ -24,7 +24,7 @@ export function jsonInputFromAmino(input?: any, defaultValue = {}): Uint8Array {
   return Buffer.from(JSON.stringify(input ?? defaultValue), 'utf8');
 }
 
-function padNumber(n, length) {
+function padNumber(n: number, length: number) {
   return n.toString().padStart(length, '0');
 }
 
