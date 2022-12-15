@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.0.5 (2022-12-15)
+### Fixed
+- Fix invalid module path in package.json
+
 ## 0.0.4 (2022-09-22)
 ### Added
 - Add amino definition for x/iscn and x/likenft
