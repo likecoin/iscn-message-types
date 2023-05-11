@@ -5,7 +5,7 @@ import {
   ClassParentInput,
   ClassInput,
 } from "../../../likechain/likenft/v1/class_input";
-import { Class, NFT } from "../../../backport/nft/v1beta1/nft";
+import { Class, NFT } from "../../../cosmos/nft/v1beta1/nft";
 import { NFTInput } from "../../../likechain/likenft/v1/nft_input";
 import { BlindBoxContent } from "../../../likechain/likenft/v1/blind_box_content";
 import { Offer } from "../../../likechain/likenft/v1/offer";
@@ -125,6 +125,7 @@ export interface MsgCreateListing {
   nftId: string;
   price: Long;
   expiration?: Date;
+  fullPayToRoyalty: boolean;
 }
 
 export interface MsgCreateListingResponse {
@@ -137,6 +138,7 @@ export interface MsgUpdateListing {
   nftId: string;
   price: Long;
   expiration?: Date;
+  fullPayToRoyalty: boolean;
 }
 
 export interface MsgUpdateListingResponse {
@@ -157,6 +159,7 @@ export interface MsgSellNFT {
   nftId: string;
   buyer: string;
   price: Long;
+  fullPayToRoyalty: boolean;
 }
 
 export interface MsgSellNFTResponse {}
@@ -1949,6 +1952,7 @@ const baseMsgCreateListing: object = {
   classId: "",
   nftId: "",
   price: Long.UZERO,
+  fullPayToRoyalty: false,
 };
 
 export const MsgCreateListing = {
@@ -1973,6 +1977,9 @@ export const MsgCreateListing = {
         toTimestamp(message.expiration),
         writer.uint32(42).fork()
       ).ldelim();
+    }
+    if (message.fullPayToRoyalty === true) {
+      writer.uint32(48).bool(message.fullPayToRoyalty);
     }
     return writer;
   },
@@ -2000,6 +2007,9 @@ export const MsgCreateListing = {
           message.expiration = fromTimestamp(
             Timestamp.decode(reader, reader.uint32())
           );
+          break;
+        case 6:
+          message.fullPayToRoyalty = reader.bool();
           break;
         default:
           reader.skipType(tag & 7);
@@ -2036,6 +2046,14 @@ export const MsgCreateListing = {
     } else {
       message.expiration = undefined;
     }
+    if (
+      object.fullPayToRoyalty !== undefined &&
+      object.fullPayToRoyalty !== null
+    ) {
+      message.fullPayToRoyalty = Boolean(object.fullPayToRoyalty);
+    } else {
+      message.fullPayToRoyalty = false;
+    }
     return message;
   },
 
@@ -2048,6 +2066,8 @@ export const MsgCreateListing = {
       (obj.price = (message.price || Long.UZERO).toString());
     message.expiration !== undefined &&
       (obj.expiration = message.expiration.toISOString());
+    message.fullPayToRoyalty !== undefined &&
+      (obj.fullPayToRoyalty = message.fullPayToRoyalty);
     return obj;
   },
 
@@ -2077,6 +2097,14 @@ export const MsgCreateListing = {
       message.expiration = object.expiration;
     } else {
       message.expiration = undefined;
+    }
+    if (
+      object.fullPayToRoyalty !== undefined &&
+      object.fullPayToRoyalty !== null
+    ) {
+      message.fullPayToRoyalty = object.fullPayToRoyalty;
+    } else {
+      message.fullPayToRoyalty = false;
     }
     return message;
   },
@@ -2159,6 +2187,7 @@ const baseMsgUpdateListing: object = {
   classId: "",
   nftId: "",
   price: Long.UZERO,
+  fullPayToRoyalty: false,
 };
 
 export const MsgUpdateListing = {
@@ -2183,6 +2212,9 @@ export const MsgUpdateListing = {
         toTimestamp(message.expiration),
         writer.uint32(42).fork()
       ).ldelim();
+    }
+    if (message.fullPayToRoyalty === true) {
+      writer.uint32(48).bool(message.fullPayToRoyalty);
     }
     return writer;
   },
@@ -2210,6 +2242,9 @@ export const MsgUpdateListing = {
           message.expiration = fromTimestamp(
             Timestamp.decode(reader, reader.uint32())
           );
+          break;
+        case 6:
+          message.fullPayToRoyalty = reader.bool();
           break;
         default:
           reader.skipType(tag & 7);
@@ -2246,6 +2281,14 @@ export const MsgUpdateListing = {
     } else {
       message.expiration = undefined;
     }
+    if (
+      object.fullPayToRoyalty !== undefined &&
+      object.fullPayToRoyalty !== null
+    ) {
+      message.fullPayToRoyalty = Boolean(object.fullPayToRoyalty);
+    } else {
+      message.fullPayToRoyalty = false;
+    }
     return message;
   },
 
@@ -2258,6 +2301,8 @@ export const MsgUpdateListing = {
       (obj.price = (message.price || Long.UZERO).toString());
     message.expiration !== undefined &&
       (obj.expiration = message.expiration.toISOString());
+    message.fullPayToRoyalty !== undefined &&
+      (obj.fullPayToRoyalty = message.fullPayToRoyalty);
     return obj;
   },
 
@@ -2287,6 +2332,14 @@ export const MsgUpdateListing = {
       message.expiration = object.expiration;
     } else {
       message.expiration = undefined;
+    }
+    if (
+      object.fullPayToRoyalty !== undefined &&
+      object.fullPayToRoyalty !== null
+    ) {
+      message.fullPayToRoyalty = object.fullPayToRoyalty;
+    } else {
+      message.fullPayToRoyalty = false;
     }
     return message;
   },
@@ -2514,6 +2567,7 @@ const baseMsgSellNFT: object = {
   nftId: "",
   buyer: "",
   price: Long.UZERO,
+  fullPayToRoyalty: false,
 };
 
 export const MsgSellNFT = {
@@ -2535,6 +2589,9 @@ export const MsgSellNFT = {
     }
     if (!message.price.isZero()) {
       writer.uint32(40).uint64(message.price);
+    }
+    if (message.fullPayToRoyalty === true) {
+      writer.uint32(48).bool(message.fullPayToRoyalty);
     }
     return writer;
   },
@@ -2560,6 +2617,9 @@ export const MsgSellNFT = {
           break;
         case 5:
           message.price = reader.uint64() as Long;
+          break;
+        case 6:
+          message.fullPayToRoyalty = reader.bool();
           break;
         default:
           reader.skipType(tag & 7);
@@ -2596,6 +2656,14 @@ export const MsgSellNFT = {
     } else {
       message.price = Long.UZERO;
     }
+    if (
+      object.fullPayToRoyalty !== undefined &&
+      object.fullPayToRoyalty !== null
+    ) {
+      message.fullPayToRoyalty = Boolean(object.fullPayToRoyalty);
+    } else {
+      message.fullPayToRoyalty = false;
+    }
     return message;
   },
 
@@ -2607,6 +2675,8 @@ export const MsgSellNFT = {
     message.buyer !== undefined && (obj.buyer = message.buyer);
     message.price !== undefined &&
       (obj.price = (message.price || Long.UZERO).toString());
+    message.fullPayToRoyalty !== undefined &&
+      (obj.fullPayToRoyalty = message.fullPayToRoyalty);
     return obj;
   },
 
@@ -2636,6 +2706,14 @@ export const MsgSellNFT = {
       message.price = object.price as Long;
     } else {
       message.price = Long.UZERO;
+    }
+    if (
+      object.fullPayToRoyalty !== undefined &&
+      object.fullPayToRoyalty !== null
+    ) {
+      message.fullPayToRoyalty = object.fullPayToRoyalty;
+    } else {
+      message.fullPayToRoyalty = false;
     }
     return message;
   },

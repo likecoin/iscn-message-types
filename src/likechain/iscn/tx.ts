@@ -16,6 +16,7 @@ export interface IscnRecord {
 export interface MsgCreateIscnRecord {
   from: string;
   record?: IscnRecord;
+  nonce: Long;
 }
 
 export interface MsgCreateIscnRecordResponse {
@@ -185,7 +186,7 @@ export const IscnRecord = {
   },
 };
 
-const baseMsgCreateIscnRecord: object = { from: "" };
+const baseMsgCreateIscnRecord: object = { from: "", nonce: Long.UZERO };
 
 export const MsgCreateIscnRecord = {
   encode(
@@ -197,6 +198,9 @@ export const MsgCreateIscnRecord = {
     }
     if (message.record !== undefined) {
       IscnRecord.encode(message.record, writer.uint32(18).fork()).ldelim();
+    }
+    if (!message.nonce.isZero()) {
+      writer.uint32(24).uint64(message.nonce);
     }
     return writer;
   },
@@ -213,6 +217,9 @@ export const MsgCreateIscnRecord = {
           break;
         case 2:
           message.record = IscnRecord.decode(reader, reader.uint32());
+          break;
+        case 3:
+          message.nonce = reader.uint64() as Long;
           break;
         default:
           reader.skipType(tag & 7);
@@ -234,6 +241,11 @@ export const MsgCreateIscnRecord = {
     } else {
       message.record = undefined;
     }
+    if (object.nonce !== undefined && object.nonce !== null) {
+      message.nonce = Long.fromString(object.nonce);
+    } else {
+      message.nonce = Long.UZERO;
+    }
     return message;
   },
 
@@ -244,6 +256,8 @@ export const MsgCreateIscnRecord = {
       (obj.record = message.record
         ? IscnRecord.toJSON(message.record)
         : undefined);
+    message.nonce !== undefined &&
+      (obj.nonce = (message.nonce || Long.UZERO).toString());
     return obj;
   },
 
@@ -258,6 +272,11 @@ export const MsgCreateIscnRecord = {
       message.record = IscnRecord.fromPartial(object.record);
     } else {
       message.record = undefined;
+    }
+    if (object.nonce !== undefined && object.nonce !== null) {
+      message.nonce = object.nonce as Long;
+    } else {
+      message.nonce = Long.UZERO;
     }
     return message;
   },

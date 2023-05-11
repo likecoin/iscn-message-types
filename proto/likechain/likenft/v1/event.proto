@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package likechain.likenft.v1;
 
-option go_package = "github.com/likecoin/likecoin-chain/v3/x/likenft/types";
+option go_package = "github.com/likecoin/likecoin-chain/v4/x/likenft/types";
 
 message EventNewClass {
   string class_id = 1;
@@ -101,6 +101,7 @@ message EventSellNFT {
   string seller = 3;
   string buyer = 4;
   uint64 price = 5;
+  bool full_pay_to_royalty = 6;
 }
 
 message EventBuyNFT {

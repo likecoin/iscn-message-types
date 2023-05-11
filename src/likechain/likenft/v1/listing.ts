@@ -11,6 +11,7 @@ export interface Listing {
   seller: string;
   price: Long;
   expiration?: Date;
+  fullPayToRoyalty: boolean;
 }
 
 export interface ListingStoreRecord {
@@ -19,6 +20,7 @@ export interface ListingStoreRecord {
   seller: Uint8Array;
   price: Long;
   expiration?: Date;
+  fullPayToRoyalty: boolean;
 }
 
 const baseListing: object = {
@@ -26,6 +28,7 @@ const baseListing: object = {
   nftId: "",
   seller: "",
   price: Long.UZERO,
+  fullPayToRoyalty: false,
 };
 
 export const Listing = {
@@ -50,6 +53,9 @@ export const Listing = {
         toTimestamp(message.expiration),
         writer.uint32(42).fork()
       ).ldelim();
+    }
+    if (message.fullPayToRoyalty === true) {
+      writer.uint32(48).bool(message.fullPayToRoyalty);
     }
     return writer;
   },
@@ -77,6 +83,9 @@ export const Listing = {
           message.expiration = fromTimestamp(
             Timestamp.decode(reader, reader.uint32())
           );
+          break;
+        case 6:
+          message.fullPayToRoyalty = reader.bool();
           break;
         default:
           reader.skipType(tag & 7);
@@ -113,6 +122,14 @@ export const Listing = {
     } else {
       message.expiration = undefined;
     }
+    if (
+      object.fullPayToRoyalty !== undefined &&
+      object.fullPayToRoyalty !== null
+    ) {
+      message.fullPayToRoyalty = Boolean(object.fullPayToRoyalty);
+    } else {
+      message.fullPayToRoyalty = false;
+    }
     return message;
   },
 
@@ -125,6 +142,8 @@ export const Listing = {
       (obj.price = (message.price || Long.UZERO).toString());
     message.expiration !== undefined &&
       (obj.expiration = message.expiration.toISOString());
+    message.fullPayToRoyalty !== undefined &&
+      (obj.fullPayToRoyalty = message.fullPayToRoyalty);
     return obj;
   },
 
@@ -155,6 +174,14 @@ export const Listing = {
     } else {
       message.expiration = undefined;
     }
+    if (
+      object.fullPayToRoyalty !== undefined &&
+      object.fullPayToRoyalty !== null
+    ) {
+      message.fullPayToRoyalty = object.fullPayToRoyalty;
+    } else {
+      message.fullPayToRoyalty = false;
+    }
     return message;
   },
 };
@@ -163,6 +190,7 @@ const baseListingStoreRecord: object = {
   classId: "",
   nftId: "",
   price: Long.UZERO,
+  fullPayToRoyalty: false,
 };
 
 export const ListingStoreRecord = {
@@ -187,6 +215,9 @@ export const ListingStoreRecord = {
         toTimestamp(message.expiration),
         writer.uint32(42).fork()
       ).ldelim();
+    }
+    if (message.fullPayToRoyalty === true) {
+      writer.uint32(48).bool(message.fullPayToRoyalty);
     }
     return writer;
   },
@@ -215,6 +246,9 @@ export const ListingStoreRecord = {
           message.expiration = fromTimestamp(
             Timestamp.decode(reader, reader.uint32())
           );
+          break;
+        case 6:
+          message.fullPayToRoyalty = reader.bool();
           break;
         default:
           reader.skipType(tag & 7);
@@ -250,6 +284,14 @@ export const ListingStoreRecord = {
     } else {
       message.expiration = undefined;
     }
+    if (
+      object.fullPayToRoyalty !== undefined &&
+      object.fullPayToRoyalty !== null
+    ) {
+      message.fullPayToRoyalty = Boolean(object.fullPayToRoyalty);
+    } else {
+      message.fullPayToRoyalty = false;
+    }
     return message;
   },
 
@@ -265,6 +307,8 @@ export const ListingStoreRecord = {
       (obj.price = (message.price || Long.UZERO).toString());
     message.expiration !== undefined &&
       (obj.expiration = message.expiration.toISOString());
+    message.fullPayToRoyalty !== undefined &&
+      (obj.fullPayToRoyalty = message.fullPayToRoyalty);
     return obj;
   },
 
@@ -294,6 +338,14 @@ export const ListingStoreRecord = {
       message.expiration = object.expiration;
     } else {
       message.expiration = undefined;
+    }
+    if (
+      object.fullPayToRoyalty !== undefined &&
+      object.fullPayToRoyalty !== null
+    ) {
+      message.fullPayToRoyalty = object.fullPayToRoyalty;
+    } else {
+      message.fullPayToRoyalty = false;
     }
     return message;
   },

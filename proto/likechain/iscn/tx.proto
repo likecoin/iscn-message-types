@@ -4,7 +4,7 @@ package likechain.iscn;
 
 import "gogoproto/gogo.proto";
 
-option go_package = "github.com/likecoin/likecoin-chain/v3/x/iscn/types";
+option go_package = "github.com/likecoin/likecoin-chain/v4/x/iscn/types";
 
 // Msg defines the bank Msg service.
 service Msg {
@@ -32,6 +32,7 @@ message IscnRecord {
 message MsgCreateIscnRecord {
   string from = 1;
   IscnRecord record = 2 [(gogoproto.nullable) = false];
+  uint64 nonce = 3;
 }
 
 message MsgCreateIscnRecordResponse {

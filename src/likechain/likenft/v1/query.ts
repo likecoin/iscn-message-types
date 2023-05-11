@@ -14,7 +14,7 @@ import {
   RoyaltyConfig,
   RoyaltyConfigByClass,
 } from "../../../likechain/likenft/v1/royalty_config";
-import { Class } from "../../../backport/nft/v1beta1/nft";
+import { Class } from "../../../cosmos/nft/v1beta1/nft";
 import { ClassesByISCN } from "../../../likechain/likenft/v1/classes_by_iscn";
 import { ClassesByAccount } from "../../../likechain/likenft/v1/classes_by_account";
 
