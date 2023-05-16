@@ -458,24 +458,27 @@ export interface MsgCreateListingAmino {
   nft_id: string;
   price: string;
   expiration: string;
+  full_pay_to_royalty: boolean;
 }
 
 export const MsgCreateListingAminoType = {
   'likechain.likenft.v1.MsgCreateListing': {
     aminoType: 'likenft/CreateListing',
-    toAmino: ({ creator, classId, nftId, price, expiration }: MsgCreateListing): MsgCreateListingAmino => ({
+    toAmino: ({ creator, classId, nftId, price, expiration, fullPayToRoyalty }: MsgCreateListing): MsgCreateListingAmino => ({
       creator,
       class_id: classId,
       nft_id: nftId,
       price: price.toString(),
       expiration: dateToAmino(expiration),
+      full_pay_to_royalty: fullPayToRoyalty,
     }),
-    fromAmino: ({ creator, class_id, nft_id, price, expiration }: MsgCreateListingAmino): MsgCreateListing => ({
+    fromAmino: ({ creator, class_id, nft_id, price, expiration, full_pay_to_royalty }: MsgCreateListingAmino): MsgCreateListing => ({
       creator,
       classId: class_id,
       nftId: nft_id,
       price: longFromAmino(price),
       expiration: new Date(expiration),
+      fullPayToRoyalty: full_pay_to_royalty,
     }),
   },
 };
@@ -486,24 +489,27 @@ export interface MsgUpdateListingAmino {
   nft_id: string;
   price: string;
   expiration: string;
+  full_pay_to_royalty: boolean;
 }
 
 export const MsgUpdateListingAminoType = {
   'likechain.likenft.v1.MsgUpdateListing': {
     aminoType: 'likenft/UpdateListing',
-    toAmino: ({ creator, classId, nftId, price, expiration }: MsgUpdateListing): MsgUpdateListingAmino => ({
+    toAmino: ({ creator, classId, nftId, price, expiration, fullPayToRoyalty }: MsgUpdateListing): MsgUpdateListingAmino => ({
       creator,
       class_id: classId,
       nft_id: nftId,
       price: price.toString(),
       expiration: dateToAmino(expiration),
+      full_pay_to_royalty: fullPayToRoyalty,
     }),
-    fromAmino: ({ creator, class_id, nft_id, price, expiration }: MsgUpdateListingAmino): MsgUpdateListing => ({
+    fromAmino: ({ creator, class_id, nft_id, price, expiration, full_pay_to_royalty }: MsgUpdateListingAmino): MsgUpdateListing => ({
       creator,
       classId: class_id,
       nftId: nft_id,
       price: longFromAmino(price),
       expiration: new Date(expiration),
+      fullPayToRoyalty: full_pay_to_royalty,
     }),
   },
 };
@@ -536,24 +542,27 @@ export interface MsgSellNFTAmino {
   nft_id: string;
   buyer: string;
   price: string;
+  full_pay_to_royalty: boolean;
 }
 
 export const MsgSellNFTAminoType = {
   'likechain.likenft.v1.MsgSellNFT': {
     aminoType: 'likenft/SellNFT',
-    toAmino: ({ creator, classId, nftId, buyer, price }: MsgSellNFT): MsgSellNFTAmino => ({
+    toAmino: ({ creator, classId, nftId, buyer, price, fullPayToRoyalty }: MsgSellNFT): MsgSellNFTAmino => ({
       creator,
       class_id: classId,
       nft_id: nftId,
       buyer,
       price: price.toString(),
+      full_pay_to_royalty: fullPayToRoyalty,
     }),
-    fromAmino: ({ creator, class_id, nft_id, buyer, price }: MsgSellNFTAmino): MsgSellNFT => ({
+    fromAmino: ({ creator, class_id, nft_id, buyer, price, full_pay_to_royalty }: MsgSellNFTAmino): MsgSellNFT => ({
       creator,
       classId: class_id,
       nftId: nft_id,
       buyer,
       price: longFromAmino(price),
+      fullPayToRoyalty: full_pay_to_royalty,
     }),
   },
 };

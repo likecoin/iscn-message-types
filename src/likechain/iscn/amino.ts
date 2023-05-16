@@ -9,6 +9,7 @@ import {
   jsonInputToAmino,
   AssertIsAminoConverter,
   AssertIsAminoType,
+  longFromAmino,
 } from '../../amino';
 
 export interface IscnRecordAmino {
@@ -50,18 +51,26 @@ type IscnRecordAminoConverter = AssertIsAminoConverter<typeof IscnRecordAminoCon
 export interface MsgCreateIscnRecordAmino {
   from: string;
   record: IscnRecordAmino;
+  nonce?: string;
 }
 
 export const MsgCreateIscnRecordAminoType = {
   '/likechain.iscn.MsgCreateIscnRecord': {
     aminoType: 'likecoin-chain/MsgCreateIscnRecord',
-    toAmino: ({ from, record }: MsgCreateIscnRecord): MsgCreateIscnRecordAmino => ({
-      from,
-      record: IscnRecordAminoConverter.toAmino(record!),
-    }),
-    fromAmino: ({ from, record }: MsgCreateIscnRecordAmino): MsgCreateIscnRecord => ({
+    toAmino: ({ from, record, nonce }: MsgCreateIscnRecord): MsgCreateIscnRecordAmino => {
+      const result: MsgCreateIscnRecordAmino = {
+        from,
+        record: IscnRecordAminoConverter.toAmino(record!),
+      };
+      if (nonce.notEquals(0)) {
+        result.nonce = nonce.toString();
+      }
+      return result;
+    },
+    fromAmino: ({ from, record, nonce = '0' }: MsgCreateIscnRecordAmino): MsgCreateIscnRecord => ({
       from,
       record: IscnRecordAminoConverter.fromAmino(record),
+      nonce: longFromAmino(nonce)
     }),
   },
 };

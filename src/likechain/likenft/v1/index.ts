@@ -1,4 +1,5 @@
 export * as amino from './amino'
+export * as authz from './authz'
 export * as blind_box_content from './blind_box_content'
 export * as listing_expire_queue from './listing_expire_queue'
 export * as class_data from './class_data'
