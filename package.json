@@ -2,6 +2,9 @@
   "name": "@likecoin/iscn-message-types",
   "version": "0.0.5",
   "description": "Provides javascript/typescript protobuf message definition for ISCN messsage.",
+  "engines": {
+    "node": ">=18"
+  },
   "main": "./dist/index.js",
   "module": "./dist/module/index.js",
   "files": [
