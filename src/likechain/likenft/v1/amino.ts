@@ -19,19 +19,19 @@ import {
   MsgDeleteRoyaltyConfig,
 } from './tx';
 import {
-	CreateRoyaltyConfigAuthorization,
-	UpdateRoyaltyConfigAuthorization,
-	DeleteRoyaltyConfigAuthorization,
-	CreateListingAuthorization,
-	UpdateListingAuthorization,
-	DeleteListingAuthorization,
-	CreateOfferAuthorization,
-	UpdateOfferAuthorization,
-	DeleteOfferAuthorization,
-	NewClassAuthorization,
-	UpdateClassAuthorization,
-	SendNFTAuthorization,
-	MintNFTAuthorization,
+  CreateRoyaltyConfigAuthorization,
+  UpdateRoyaltyConfigAuthorization,
+  DeleteRoyaltyConfigAuthorization,
+  CreateListingAuthorization,
+  UpdateListingAuthorization,
+  DeleteListingAuthorization,
+  CreateOfferAuthorization,
+  UpdateOfferAuthorization,
+  DeleteOfferAuthorization,
+  NewClassAuthorization,
+  UpdateClassAuthorization,
+  SendNFTAuthorization,
+  MintNFTAuthorization,
 } from './authz';
 import { AssertIsAminoConverter, AssertIsAminoType, dateToAmino, jsonInputFromAmino, jsonInputToAmino, longFromAmino } from '../../../amino';
 import { ClassInput, ClassParentInput } from './class_input';
