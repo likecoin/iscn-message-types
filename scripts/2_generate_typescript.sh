@@ -11,7 +11,6 @@ command -v shellcheck >/dev/null && shellcheck "$0"
 PROTO_DEPS_DIR="../proto_deps"
 PROTO_ROOT_DIR="../proto"
 OUT_DIR="../src/"
-# OUT_DIR="./output"
 
 mkdir -p "$OUT_DIR"
 
