@@ -4,6 +4,7 @@ import {
   MsgUpdateIscnRecord,
   MsgChangeIscnRecordOwnership,
 } from './tx';
+import { UpdateAuthorization } from './authz';
 import {
   jsonInputFromAmino,
   jsonInputToAmino,
@@ -117,10 +118,31 @@ export const MsgChangeIscnRecordOwnershipAminoType = {
   }
 }
 
-const IscnAminoTypes = {
+export interface UpdateAuthorizationAmino {
+  iscn_id_prefix: string;
+}
+
+export const UpdateAuthorizationAminoType = {
+  '/likechain.iscn.UpdateAuthorization': {
+    aminoType:  'likecoin-chain/UpdateAuthorization',
+    toAmino(a: UpdateAuthorization): UpdateAuthorizationAmino {
+      return {
+        iscn_id_prefix: a.iscnIdPrefix,
+      };
+    },
+    fromAmino(a: UpdateAuthorizationAmino): UpdateAuthorization {
+      return {
+        iscnIdPrefix: a.iscn_id_prefix,
+      };
+    },
+  }
+};
+
+export const IscnAminoTypes = {
   ...MsgCreateIscnRecordAminoType,
   ...MsgUpdateIscnRecordAminoType,
   ...MsgChangeIscnRecordOwnershipAminoType,
+  ...UpdateAuthorizationAminoType,
 };
 
 type IscnAminoTypes = AssertIsAminoType<typeof IscnAminoTypes>;
