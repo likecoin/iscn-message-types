@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.0.6 (2023-05-17)
+### Fixed
+- Update definitions for LikeCoin chain v4
+- Upgrade to node@18
+
 ## 0.0.5 (2022-12-15)
 ### Fixed
 - Fix invalid module path in package.json
