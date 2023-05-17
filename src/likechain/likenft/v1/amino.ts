@@ -18,6 +18,21 @@ import {
   MsgUpdateRoyaltyConfig,
   MsgDeleteRoyaltyConfig,
 } from './tx';
+import {
+  CreateRoyaltyConfigAuthorization,
+  UpdateRoyaltyConfigAuthorization,
+  DeleteRoyaltyConfigAuthorization,
+  CreateListingAuthorization,
+  UpdateListingAuthorization,
+  DeleteListingAuthorization,
+  CreateOfferAuthorization,
+  UpdateOfferAuthorization,
+  DeleteOfferAuthorization,
+  NewClassAuthorization,
+  UpdateClassAuthorization,
+  SendNFTAuthorization,
+  MintNFTAuthorization,
+} from './authz';
 import { AssertIsAminoConverter, AssertIsAminoType, dateToAmino, jsonInputFromAmino, jsonInputToAmino, longFromAmino } from '../../../amino';
 import { ClassInput, ClassParentInput } from './class_input';
 import { classParentTypeToJSON, classParentTypeFromJSON, MintPeriod, BlindBoxConfig, ClassConfig } from './class_data';
@@ -458,24 +473,27 @@ export interface MsgCreateListingAmino {
   nft_id: string;
   price: string;
   expiration: string;
+  full_pay_to_royalty: boolean;
 }
 
 export const MsgCreateListingAminoType = {
   'likechain.likenft.v1.MsgCreateListing': {
     aminoType: 'likenft/CreateListing',
-    toAmino: ({ creator, classId, nftId, price, expiration }: MsgCreateListing): MsgCreateListingAmino => ({
+    toAmino: ({ creator, classId, nftId, price, expiration, fullPayToRoyalty }: MsgCreateListing): MsgCreateListingAmino => ({
       creator,
       class_id: classId,
       nft_id: nftId,
       price: price.toString(),
       expiration: dateToAmino(expiration),
+      full_pay_to_royalty: fullPayToRoyalty,
     }),
-    fromAmino: ({ creator, class_id, nft_id, price, expiration }: MsgCreateListingAmino): MsgCreateListing => ({
+    fromAmino: ({ creator, class_id, nft_id, price, expiration, full_pay_to_royalty }: MsgCreateListingAmino): MsgCreateListing => ({
       creator,
       classId: class_id,
       nftId: nft_id,
       price: longFromAmino(price),
       expiration: new Date(expiration),
+      fullPayToRoyalty: full_pay_to_royalty,
     }),
   },
 };
@@ -486,24 +504,27 @@ export interface MsgUpdateListingAmino {
   nft_id: string;
   price: string;
   expiration: string;
+  full_pay_to_royalty: boolean;
 }
 
 export const MsgUpdateListingAminoType = {
   'likechain.likenft.v1.MsgUpdateListing': {
     aminoType: 'likenft/UpdateListing',
-    toAmino: ({ creator, classId, nftId, price, expiration }: MsgUpdateListing): MsgUpdateListingAmino => ({
+    toAmino: ({ creator, classId, nftId, price, expiration, fullPayToRoyalty }: MsgUpdateListing): MsgUpdateListingAmino => ({
       creator,
       class_id: classId,
       nft_id: nftId,
       price: price.toString(),
       expiration: dateToAmino(expiration),
+      full_pay_to_royalty: fullPayToRoyalty,
     }),
-    fromAmino: ({ creator, class_id, nft_id, price, expiration }: MsgUpdateListingAmino): MsgUpdateListing => ({
+    fromAmino: ({ creator, class_id, nft_id, price, expiration, full_pay_to_royalty }: MsgUpdateListingAmino): MsgUpdateListing => ({
       creator,
       classId: class_id,
       nftId: nft_id,
       price: longFromAmino(price),
       expiration: new Date(expiration),
+      fullPayToRoyalty: full_pay_to_royalty,
     }),
   },
 };
@@ -536,24 +557,27 @@ export interface MsgSellNFTAmino {
   nft_id: string;
   buyer: string;
   price: string;
+  full_pay_to_royalty: boolean;
 }
 
 export const MsgSellNFTAminoType = {
   'likechain.likenft.v1.MsgSellNFT': {
     aminoType: 'likenft/SellNFT',
-    toAmino: ({ creator, classId, nftId, buyer, price }: MsgSellNFT): MsgSellNFTAmino => ({
+    toAmino: ({ creator, classId, nftId, buyer, price, fullPayToRoyalty }: MsgSellNFT): MsgSellNFTAmino => ({
       creator,
       class_id: classId,
       nft_id: nftId,
       buyer,
       price: price.toString(),
+      full_pay_to_royalty: fullPayToRoyalty,
     }),
-    fromAmino: ({ creator, class_id, nft_id, buyer, price }: MsgSellNFTAmino): MsgSellNFT => ({
+    fromAmino: ({ creator, class_id, nft_id, buyer, price, full_pay_to_royalty }: MsgSellNFTAmino): MsgSellNFT => ({
       creator,
       classId: class_id,
       nftId: nft_id,
       buyer,
       price: longFromAmino(price),
+      fullPayToRoyalty: full_pay_to_royalty,
     }),
   },
 };
@@ -693,7 +717,222 @@ export const MsgDeleteRoyaltyConfigAminoType = {
   },
 };
 
-const LikeNftAminoTypes = {
+export interface CreateRoyaltyConfigAuthorizationAmino {
+  class_id: string;
+}
+
+export const CreateRoyaltyConfigAuthorizationAminoType = {
+  '/likechain.likenft.v1.CreateRoyaltyConfigAuthorization': {
+    aminoType: 'likenft/CreateRoyaltyConfigAuthorization',
+    toAmino({ classId }: CreateRoyaltyConfigAuthorization): CreateRoyaltyConfigAuthorizationAmino {
+      return { class_id: classId };
+    },
+    fromAmino({ class_id }: CreateRoyaltyConfigAuthorizationAmino): CreateRoyaltyConfigAuthorization {
+      return { classId: class_id };
+    },
+  },
+};
+
+export interface UpdateRoyaltyConfigAuthorizationAmino {
+  class_id: string;
+}
+
+export const UpdateRoyaltyConfigAuthorizationAminoType = {
+  '/likechain.likenft.v1.UpdateRoyaltyConfigAuthorization': {
+    aminoType: 'likenft/UpdateRoyaltyConfigAuthorization',
+    toAmino({ classId }: UpdateRoyaltyConfigAuthorization): UpdateRoyaltyConfigAuthorizationAmino {
+      return { class_id: classId };
+    },
+    fromAmino({ class_id }: UpdateRoyaltyConfigAuthorizationAmino): UpdateRoyaltyConfigAuthorization {
+      return { classId: class_id };
+    },
+  },
+};
+
+export interface DeleteRoyaltyConfigAuthorizationAmino {
+  class_id: string;
+}
+
+export const DeleteRoyaltyConfigAuthorizationAminoType = {
+  '/likechain.likenft.v1.DeleteRoyaltyConfigAuthorization': {
+    aminoType: 'likenft/DeleteRoyaltyConfigAuthorization',
+    toAmino({ classId }: DeleteRoyaltyConfigAuthorization): DeleteRoyaltyConfigAuthorizationAmino {
+      return { class_id: classId };
+    },
+    fromAmino({ class_id }: DeleteRoyaltyConfigAuthorizationAmino): DeleteRoyaltyConfigAuthorization {
+      return { classId: class_id };
+    },
+  },
+};
+
+export interface CreateListingAuthorizationAmino {
+  class_id: string;
+  nft_id: string;
+}
+
+export const CreateListingAuthorizationAminoType = {
+  '/likechain.likenft.v1.CreateListingAuthorization': {
+    aminoType: 'likenft/CreateListingAuthorization',
+    toAmino({ classId, nftId }: CreateListingAuthorization): CreateListingAuthorizationAmino {
+      return { class_id: classId, nft_id: nftId };
+    },
+    fromAmino({ class_id, nft_id }: CreateListingAuthorizationAmino): CreateListingAuthorization {
+      return { classId: class_id, nftId: nft_id };
+    },
+  },
+};
+
+export interface UpdateListingAuthorizationAmino {
+  class_id: string;
+  nft_id: string;
+}
+
+export const UpdateListingAuthorizationAminoType = {
+  '/likechain.likenft.v1.UpdateListingAuthorization': {
+    aminoType: 'likenft/UpdateListingAuthorization',
+    toAmino({ classId, nftId }: UpdateListingAuthorization): UpdateListingAuthorizationAmino {
+      return { class_id: classId, nft_id: nftId };
+    },
+    fromAmino({ class_id, nft_id }: UpdateListingAuthorizationAmino): UpdateListingAuthorization {
+      return { classId: class_id, nftId: nft_id };
+    },
+  },
+};
+
+export interface DeleteListingAuthorizationAmino {
+  class_id: string;
+  nft_id: string;
+}
+
+export const DeleteListingAuthorizationAminoType = {
+  '/likechain.likenft.v1.DeleteListingAuthorization': {
+    aminoType: 'likenft/DeleteListingAuthorization',
+    toAmino({ classId, nftId }: DeleteListingAuthorization): DeleteListingAuthorizationAmino {
+      return { class_id: classId, nft_id: nftId };
+    },
+    fromAmino({ class_id, nft_id }: DeleteListingAuthorizationAmino): DeleteListingAuthorization {
+      return { classId: class_id, nftId: nft_id };
+    },
+  },
+};
+
+export interface CreateOfferAuthorizationAmino {
+  class_id: string;
+  nft_id: string;
+}
+
+export const CreateOfferAuthorizationAminoType = {
+  '/likechain.likenft.v1.CreateOfferAuthorization': {
+    aminoType: 'likenft/CreateOfferAuthorization',
+    toAmino({ classId, nftId }: CreateOfferAuthorization): CreateOfferAuthorizationAmino {
+      return { class_id: classId, nft_id: nftId };
+    },
+    fromAmino({ class_id, nft_id }: CreateOfferAuthorizationAmino): CreateOfferAuthorization {
+      return { classId: class_id, nftId: nft_id };
+    },
+  },
+};
+
+export interface UpdateOfferAuthorizationAmino {
+  class_id: string;
+  nft_id: string;
+}
+
+export const UpdateOfferAuthorizationAminoType = {
+  '/likechain.likenft.v1.UpdateOfferAuthorization': {
+    aminoType: 'likenft/UpdateOfferAuthorization',
+    toAmino({ classId, nftId }: UpdateOfferAuthorization): UpdateOfferAuthorizationAmino {
+      return { class_id: classId, nft_id: nftId };
+    },
+    fromAmino({ class_id, nft_id }: UpdateOfferAuthorizationAmino): UpdateOfferAuthorization {
+      return { classId: class_id, nftId: nft_id };
+    },
+  },
+};
+
+export interface DeleteOfferAuthorizationAmino {
+  class_id: string;
+  nft_id: string;
+}
+
+export const DeleteOfferAuthorizationAminoType = {
+  '/likechain.likenft.v1.DeleteOfferAuthorization': {
+    aminoType: 'likenft/DeleteOfferAuthorization',
+    toAmino({ classId, nftId }: DeleteOfferAuthorization): DeleteOfferAuthorizationAmino {
+      return { class_id: classId, nft_id: nftId };
+    },
+    fromAmino({ class_id, nft_id }: DeleteOfferAuthorizationAmino): DeleteOfferAuthorization {
+      return { classId: class_id, nftId: nft_id };
+    },
+  },
+};
+
+export interface NewClassAuthorizationAmino {
+  iscn_id_prefix: string;
+}
+
+export const NewClassAuthorizationAminoType = {
+  '/likechain.likenft.v1.NewClassAuthorization': {
+    aminoType: 'likenft/NewClassAuthorization',
+    toAmino({ iscnIdPrefix }: NewClassAuthorization): NewClassAuthorizationAmino {
+      return { iscn_id_prefix: iscnIdPrefix };
+    },
+    fromAmino({ iscn_id_prefix }: NewClassAuthorizationAmino): NewClassAuthorization {
+      return { iscnIdPrefix: iscn_id_prefix };
+    },
+  },
+};
+
+export interface UpdateClassAuthorizationAmino {
+  class_id: string;
+}
+
+export const UpdateClassAuthorizationAminoType = {
+  '/likechain.likenft.v1.UpdateClassAuthorization': {
+    aminoType: 'likenft/UpdateClassAuthorization',
+    toAmino({ classId }: UpdateClassAuthorization): UpdateClassAuthorizationAmino {
+      return { class_id: classId };
+    },
+    fromAmino({ class_id }: UpdateClassAuthorizationAmino): UpdateClassAuthorization {
+      return { classId: class_id };
+    },
+  },
+};
+
+export interface MintNFTAuthorizationAmino {
+  class_id: string;
+}
+
+export const MintNFTAuthorizationAminoType = {
+  '/likechain.likenft.v1.MintNFTAuthorization': {
+    aminoType: 'likenft/MintNFTAuthorization',
+    toAmino({ classId }: MintNFTAuthorization): MintNFTAuthorizationAmino {
+      return { class_id: classId };
+    },
+    fromAmino({ class_id }: MintNFTAuthorizationAmino): MintNFTAuthorization {
+      return { classId: class_id };
+    },
+  },
+};
+
+export interface SendNFTAuthorizationAmino {
+  class_id: string;
+  id: string;
+}
+
+export const SendNFTAuthorizationAminoType = {
+  '/likechain.likenft.v1.SendNFTAuthorization': {
+    aminoType: 'likenft/SendNFTAuthorization',
+    toAmino({ classId, id }: SendNFTAuthorization): SendNFTAuthorizationAmino {
+      return { class_id: classId, id };
+    },
+    fromAmino({ class_id, id }: SendNFTAuthorizationAmino): SendNFTAuthorization {
+      return { classId: class_id, id };
+    },
+  },
+};
+
+export const LikeNftAminoTypes = {
 	...MsgNewClassAminoType,
   ...MsgUpdateClassAminoType,
   ...MsgMintNFTAminoType,
@@ -712,6 +951,19 @@ const LikeNftAminoTypes = {
   ...MsgCreateRoyaltyConfigAminoType,
   ...MsgUpdateRoyaltyConfigAminoType,
   ...MsgDeleteRoyaltyConfigAminoType,
+  ...CreateRoyaltyConfigAuthorizationAminoType,
+  ...UpdateRoyaltyConfigAuthorizationAminoType,
+  ...DeleteRoyaltyConfigAuthorizationAminoType,
+  ...CreateListingAuthorizationAminoType,
+  ...UpdateListingAuthorizationAminoType,
+  ...DeleteListingAuthorizationAminoType,
+  ...CreateOfferAuthorizationAminoType,
+  ...UpdateOfferAuthorizationAminoType,
+  ...DeleteOfferAuthorizationAminoType,
+  ...NewClassAuthorizationAminoType,
+  ...UpdateClassAuthorizationAminoType,
+  ...MintNFTAuthorizationAminoType,
+  ...SendNFTAuthorizationAminoType,
 };
 
 type LikeNftAminoTypes = AssertIsAminoType<typeof LikeNftAminoTypes>

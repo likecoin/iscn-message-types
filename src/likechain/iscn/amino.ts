@@ -4,11 +4,13 @@ import {
   MsgUpdateIscnRecord,
   MsgChangeIscnRecordOwnership,
 } from './tx';
+import { UpdateAuthorization } from './authz';
 import {
   jsonInputFromAmino,
   jsonInputToAmino,
   AssertIsAminoConverter,
   AssertIsAminoType,
+  longFromAmino,
 } from '../../amino';
 
 export interface IscnRecordAmino {
@@ -50,18 +52,26 @@ type IscnRecordAminoConverter = AssertIsAminoConverter<typeof IscnRecordAminoCon
 export interface MsgCreateIscnRecordAmino {
   from: string;
   record: IscnRecordAmino;
+  nonce?: string;
 }
 
 export const MsgCreateIscnRecordAminoType = {
   '/likechain.iscn.MsgCreateIscnRecord': {
     aminoType: 'likecoin-chain/MsgCreateIscnRecord',
-    toAmino: ({ from, record }: MsgCreateIscnRecord): MsgCreateIscnRecordAmino => ({
-      from,
-      record: IscnRecordAminoConverter.toAmino(record!),
-    }),
-    fromAmino: ({ from, record }: MsgCreateIscnRecordAmino): MsgCreateIscnRecord => ({
+    toAmino: ({ from, record, nonce }: MsgCreateIscnRecord): MsgCreateIscnRecordAmino => {
+      const result: MsgCreateIscnRecordAmino = {
+        from,
+        record: IscnRecordAminoConverter.toAmino(record!),
+      };
+      if (nonce.notEquals(0)) {
+        result.nonce = nonce.toString();
+      }
+      return result;
+    },
+    fromAmino: ({ from, record, nonce = '0' }: MsgCreateIscnRecordAmino): MsgCreateIscnRecord => ({
       from,
       record: IscnRecordAminoConverter.fromAmino(record),
+      nonce: longFromAmino(nonce)
     }),
   },
 };
@@ -108,10 +118,31 @@ export const MsgChangeIscnRecordOwnershipAminoType = {
   }
 }
 
-const IscnAminoTypes = {
+export interface UpdateAuthorizationAmino {
+  iscn_id_prefix: string;
+}
+
+export const UpdateAuthorizationAminoType = {
+  '/likechain.iscn.UpdateAuthorization': {
+    aminoType:  'likecoin-chain/UpdateAuthorization',
+    toAmino(a: UpdateAuthorization): UpdateAuthorizationAmino {
+      return {
+        iscn_id_prefix: a.iscnIdPrefix,
+      };
+    },
+    fromAmino(a: UpdateAuthorizationAmino): UpdateAuthorization {
+      return {
+        iscnIdPrefix: a.iscn_id_prefix,
+      };
+    },
+  }
+};
+
+export const IscnAminoTypes = {
   ...MsgCreateIscnRecordAminoType,
   ...MsgUpdateIscnRecordAminoType,
   ...MsgChangeIscnRecordOwnershipAminoType,
+  ...UpdateAuthorizationAminoType,
 };
 
 type IscnAminoTypes = AssertIsAminoType<typeof IscnAminoTypes>;

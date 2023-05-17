@@ -2,6 +2,9 @@
   "name": "@likecoin/iscn-message-types",
   "version": "0.0.5",
   "description": "Provides javascript/typescript protobuf message definition for ISCN messsage.",
+  "engines": {
+    "node": ">=18"
+  },
   "main": "./dist/index.js",
   "module": "./dist/module/index.js",
   "files": [
@@ -22,6 +25,7 @@
   "author": "Wei <wei@liker.land>",
   "license": "GPL-3.0-or-later",
   "devDependencies": {
+    "@bufbuild/buf": "^1.18.0-1",
     "@protobuf-ts/plugin": "^1.0.13",
     "@protobuf-ts/protoc": "^1.0.13",
     "create-hash": "^1.2.0",

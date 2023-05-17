@@ -37,7 +37,5 @@ Thumbs.db
 # Ignore built ts files
 dist/**/*
 
-cosmos
 dist
-src/cosmos/
-src/google/
+proto_deps

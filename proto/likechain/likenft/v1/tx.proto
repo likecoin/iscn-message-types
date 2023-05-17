@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package likechain.likenft.v1;
 
-import "backport/nft/v1beta1/nft.proto";
+import "cosmos/nft/v1beta1/nft.proto";
 import "gogoproto/gogo.proto";
 import "google/protobuf/timestamp.proto";
 import "likechain/likenft/v1/blind_box_content.proto";
@@ -13,7 +13,7 @@ import "likechain/likenft/v1/offer.proto";
 import "likechain/likenft/v1/royalty_config.proto";
 
 // this line is used by starport scaffolding # proto/tx/import
-option go_package = "github.com/likecoin/likecoin-chain/v3/x/likenft/types";
+option go_package = "github.com/likecoin/likecoin-chain/v4/x/likenft/types";
 
 // Msg defines the Msg service.
 service Msg {
@@ -151,6 +151,7 @@ message MsgCreateListing {
     (gogoproto.stdtime) = true,
     (gogoproto.nullable) = false
   ];
+  bool full_pay_to_royalty = 6;
 }
 message MsgCreateListingResponse {
   Listing listing = 1 [(gogoproto.nullable) = false];
@@ -165,6 +166,7 @@ message MsgUpdateListing {
     (gogoproto.stdtime) = true,
     (gogoproto.nullable) = false
   ];
+  bool full_pay_to_royalty = 6;
 }
 message MsgUpdateListingResponse {
   Listing listing = 1 [(gogoproto.nullable) = false];
@@ -183,6 +185,7 @@ message MsgSellNFT {
   string nft_id = 3;
   string buyer = 4;
   uint64 price = 5;
+  bool full_pay_to_royalty = 6;
 }
 
 message MsgSellNFTResponse {}

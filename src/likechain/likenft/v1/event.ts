@@ -101,6 +101,7 @@ export interface EventSellNFT {
   seller: string;
   buyer: string;
   price: Long;
+  fullPayToRoyalty: boolean;
 }
 
 export interface EventBuyNFT {
@@ -1706,6 +1707,7 @@ const baseEventSellNFT: object = {
   seller: "",
   buyer: "",
   price: Long.UZERO,
+  fullPayToRoyalty: false,
 };
 
 export const EventSellNFT = {
@@ -1727,6 +1729,9 @@ export const EventSellNFT = {
     }
     if (!message.price.isZero()) {
       writer.uint32(40).uint64(message.price);
+    }
+    if (message.fullPayToRoyalty === true) {
+      writer.uint32(48).bool(message.fullPayToRoyalty);
     }
     return writer;
   },
@@ -1752,6 +1757,9 @@ export const EventSellNFT = {
           break;
         case 5:
           message.price = reader.uint64() as Long;
+          break;
+        case 6:
+          message.fullPayToRoyalty = reader.bool();
           break;
         default:
           reader.skipType(tag & 7);
@@ -1788,6 +1796,14 @@ export const EventSellNFT = {
     } else {
       message.price = Long.UZERO;
     }
+    if (
+      object.fullPayToRoyalty !== undefined &&
+      object.fullPayToRoyalty !== null
+    ) {
+      message.fullPayToRoyalty = Boolean(object.fullPayToRoyalty);
+    } else {
+      message.fullPayToRoyalty = false;
+    }
     return message;
   },
 
@@ -1799,6 +1815,8 @@ export const EventSellNFT = {
     message.buyer !== undefined && (obj.buyer = message.buyer);
     message.price !== undefined &&
       (obj.price = (message.price || Long.UZERO).toString());
+    message.fullPayToRoyalty !== undefined &&
+      (obj.fullPayToRoyalty = message.fullPayToRoyalty);
     return obj;
   },
 
@@ -1828,6 +1846,14 @@ export const EventSellNFT = {
       message.price = object.price as Long;
     } else {
       message.price = Long.UZERO;
+    }
+    if (
+      object.fullPayToRoyalty !== undefined &&
+      object.fullPayToRoyalty !== null
+    ) {
+      message.fullPayToRoyalty = object.fullPayToRoyalty;
+    } else {
+      message.fullPayToRoyalty = false;
     }
     return message;
   },

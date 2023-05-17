@@ -3,7 +3,7 @@ syntax = "proto3";
 package likechain.likenft.v1;
 
 import "cosmos/base/query/v1beta1/pagination.proto";
-import "backport/nft/v1beta1/nft.proto";
+import "cosmos/nft/v1beta1/nft.proto";
 import "gogoproto/gogo.proto";
 import "google/api/annotations.proto";
 import "likechain/iscn/query.proto";
@@ -17,7 +17,7 @@ import "likechain/likenft/v1/royalty_config.proto";
 // this line is used by starport scaffolding # 1
 
 
-option go_package = "github.com/likecoin/likecoin-chain/v3/x/likenft/types";
+option go_package = "github.com/likecoin/likecoin-chain/v4/x/likenft/types";
 
 // Query defines the gRPC querier service.
 service Query {

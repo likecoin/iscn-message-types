@@ -8,23 +8,19 @@ cd "${WD}"
 set -o errexit -o nounset -o pipefail
 command -v shellcheck >/dev/null && shellcheck "$0"
 
-COSMOS_SDK_REF='v0.45.6'
+PROTO_DEPS_DIR="../proto_deps"
+PROTO_DEPS_DIR_FULL_PATH=$(realpath --no-symlink "$PROTO_DEPS_DIR")
+if [ -e "$PROTO_DEPS_DIR_FULL_PATH" ]; then
+  echo "Output path $PROTO_DEPS_DIR_FULL_PATH exists, please remove it first"
+  exit 1
+fi
 
-PROTO_DIR="../proto"
-COSMOS_DIR="../cosmos"
-COSMOS_SDK_DIR="$COSMOS_DIR/cosmos-sdk"
-ZIP_FILE="$COSMOS_DIR/tmp.zip"
-COSMOS_SDK_REF=${COSMOS_SDK_REF:-"master"}
-SUFFIX=${COSMOS_SDK_REF}
+COSMOS_SDK_PROTO_COMMIT="8cb30a2c4de74dc9bd8d260b1e75e176"
 
-[[ $SUFFIX =~ ^v[0-9]+\.[0-9]+\.[0-9]+(-.+)?$ ]] && SUFFIX=${SUFFIX#v}
+mkdir -p "$PROTO_DEPS_DIR_FULL_PATH"
+echo "Output to $PROTO_DEPS_DIR_FULL_PATH"
 
-rm -rf "$COSMOS_DIR"
-mkdir -p "$COSMOS_DIR"
-
-curl -Lo "$ZIP_FILE" "https://github.com/cosmos/cosmos-sdk/archive/$COSMOS_SDK_REF.zip"
-unzip "$ZIP_FILE" "*.proto" -d "$COSMOS_DIR"
-mv "$COSMOS_SDK_DIR-$SUFFIX" "$COSMOS_SDK_DIR"
-rm "$ZIP_FILE"
+BUF="$(npm bin)/buf"
+$BUF export buf.build/cosmos/cosmos-sdk:$COSMOS_SDK_PROTO_COMMIT --output "$PROTO_DEPS_DIR_FULL_PATH"
 
 cd "${PWD}"
