@@ -3,7 +3,7 @@
   "version": "0.0.6",
   "description": "Provides javascript/typescript protobuf message definition for ISCN messsage.",
   "engines": {
-    "node": ">=18"
+    "node": ">=16"
   },
   "main": "./dist/index.js",
   "module": "./dist/module/index.js",
