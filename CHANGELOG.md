@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.0.8 (2024-12-09)
+### Changed
+- Remove buffer import and let build system polyfill it
+
 ## 0.0.7 (2023-06-06)
 ### Changed
 - Downgrade to node@16
