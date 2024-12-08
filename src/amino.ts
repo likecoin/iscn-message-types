@@ -1,5 +1,14 @@
-import { Buffer } from 'buffer/';
 export { fromString as longFromAmino } from 'long';
+
+declare var self: any | undefined;
+declare var window: any | undefined;
+var globalThis: any = (() => {
+  if (typeof globalThis !== "undefined") return globalThis;
+  if (typeof self !== "undefined") return self;
+  if (typeof window !== "undefined") return window;
+  if (typeof global !== "undefined") return global;
+  throw "Unable to locate global object";
+})();
 
 // from @cosmjs/stargate/build/aminotypes.d.ts
 export interface AminoConverter {
@@ -21,7 +30,7 @@ export function jsonInputToAmino(buf?: Uint8Array, defaultValue = null): any {
 }
 
 export function jsonInputFromAmino(input?: any, defaultValue = {}): Uint8Array {
-  return Buffer.from(JSON.stringify(input ?? defaultValue), 'utf8');
+  return globalThis.Buffer.from(JSON.stringify(input ?? defaultValue), 'utf8');
 }
 
 function padNumber(n: number, length: number) {
